@@ -1,5 +1,5 @@
 import winston from "winston";
-import config from "./index";
+import config from "./index.js";
 
 /*
 winston logger configuration
@@ -19,7 +19,7 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.File({
       filename: "logs/error.log",
-      level: "error ",
+      level: "error",
     }),
     new winston.transports.File({
       filename: "logs/combine.log",
@@ -29,10 +29,12 @@ const logger = winston.createLogger({
 
 if (config.node_env !== "production") {
   logger.add(
-    new winston.transports.Console(
-      winston.format.colorize(),
-      winston.format.simple(),
-    ),
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple(),
+      ),
+    }),
   );
 }
 

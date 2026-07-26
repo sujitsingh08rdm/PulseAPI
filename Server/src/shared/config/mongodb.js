@@ -1,5 +1,5 @@
-import config from "./index";
-import logger from "./logger";
+import config from "./index.js";
+import logger from "./logger.js";
 import mongoose from "mongoose";
 
 /*
@@ -20,7 +20,7 @@ class mongoConnection {
     try {
       if (this.connection) {
         logger.info("MongoDB already connected");
-        return this.connection();
+        return this.connection;
       }
       await mongoose.connect(config.mongo.uri, {
         dbName: config.mongo.dbName,
@@ -30,11 +30,11 @@ class mongoConnection {
 
       logger.info(`MongoDB connected : ${config.mongo.uri}`);
 
-      this.connection.on("Error", (err) => {
+      this.connection.on("error", (err) => {
         logger.error("MongoDB connection error, ", err);
       });
 
-      this.connection.on("Disconnect", () => {
+      this.connection.on("disconnected", () => {
         logger.error("MongoDB disconnected");
       });
 
@@ -71,4 +71,4 @@ class mongoConnection {
   }
 }
 
-export default new MongoConnection();
+export default new mongoConnection();

@@ -1,5 +1,5 @@
-import config from "./index";
-import logger from "./logger";
+import config from "./index.js";
+import logger from "./logger.js";
 import amqp from "amqplib";
 
 class RabbitMQConnection {
@@ -38,14 +38,14 @@ class RabbitMQConnection {
       const dlqName = `${config.rabbitmq.queue}.dlq`;
 
       //   DL queue
-      await this.channel.assertQueue(dlq, { durable: true });
+      await this.channel.assertQueue(dlqName, { durable: true });
 
       //normal queue
       await this.channel.assertQueue(config.rabbitmq.queue, {
         durable: true,
         arguments: {
           "x-dead-letter-exchange": "",
-          "x-dead-letter-routing-key": dlq,
+          "x-dead-letter-routing-key": dlqName,
         },
       });
 
@@ -67,7 +67,7 @@ class RabbitMQConnection {
       return this.channel;
     } catch (error) {
       this.isConnecting = false;
-      logger.error(`RabbitMQ connection error`, err);
+      logger.error(`RabbitMQ connection error`, error);
       throw error;
     }
   }

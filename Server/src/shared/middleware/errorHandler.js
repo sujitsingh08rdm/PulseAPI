@@ -1,0 +1,34 @@
+import logger from "../config/logger.js";
+import ResponseFormatter from "../utils/ResponseFormatter.js";
+
+// agent
+const errorHandler = (err, req, res, next) => {
+  let statusCode = req.statusCode || 500;
+  let message = err.message || "Internal server error";
+  let errors = err.errors || null;
+
+  logger.error("Error occured:", {
+    message: err.message,
+    statusCode,
+    stack: err.stack,
+    path: req.path,
+    method: req.method,
+  });
+
+  if (err.name === "ValidationError") {
+    statusCode = 400;
+    message: "Validation Error";
+    errors = Object.values(err.errors).map((e) => e.message);
+  } else if (err.name === "MongoServerError" && err.code === 10000) {
+    statusCode = 409;
+    message: "Invalid token";
+  } else if (err.name === "TokenExpiredError") {
+    statusCode = 401;
+    message: "Token expired";
+  }
+  res
+    .status(statusCode)
+    .json(ResponseFormatter.error(message, statusCode, errors));
+};
+
+export default errorHandler;

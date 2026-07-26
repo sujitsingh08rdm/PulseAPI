@@ -24,7 +24,7 @@ const config = {
 
   //rabbit mq
   rabbitmq: {
-    url: process.env.RABBIT_URL || "ampq://localhost:5672",
+    url: process.env.RABBITMQ_URL || "amqp://localhost:5672",
     queue: process.env.RABBIT_QUEUE || "api_hits",
     publisherComfirms:
       process.env.RABBITMQ_PUBLISHER_CONFIRMS === "true" || false,
