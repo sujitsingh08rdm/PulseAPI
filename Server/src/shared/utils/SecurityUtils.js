@@ -1,4 +1,4 @@
-class SecurityUtils {
+export class SecurityUtils {
   static PASSWORD_REQUIREMENTS = {
     minLength: parseInt(process.env.PASSWORD_MIN_LENGTH || "8"),
     requireUppercase:
@@ -27,19 +27,19 @@ class SecurityUtils {
         `Password must be atleast ${requirement.minLength} chars long`,
       );
     }
-    if (requirements.requireUppercase && !/[A-Z]/.test(password)) {
+    if (requirement.requireUppercase && !/[A-Z]/.test(password)) {
       errors.push("Password must contain at least one uppercase letter");
     }
 
-    if (requirements.requireLowercase && !/[a-z]/.test(password)) {
+    if (requirement.requireLowercase && !/[a-z]/.test(password)) {
       errors.push("Password must contain at least one lowercase letter");
     }
 
-    if (requirements.requireNumbers && !/[0-9]/.test(password)) {
+    if (requirement.requireNumbers && !/[0-9]/.test(password)) {
       errors.push("Password must contain at least one number");
     }
 
-    if (requirements.requireSymbols && !/[^A-Za-z0-9]/.test(password)) {
+    if (requirement.requireSymbols && !/[^A-Za-z0-9]/.test(password)) {
       errors.push("Password must contain at least one special character");
     }
 

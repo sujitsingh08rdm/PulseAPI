@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const config = {
@@ -40,6 +39,12 @@ const config = {
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "90000", 10), // 15 minutes
     maxRequest: parseInt(process.env.RATE_LIMIT_MAX_REQUEST || "1000", 10), //1000 req/15mins per IP
+  },
+
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expiresIn: 24 * 60 * 60 * 1000,
   },
 };
 

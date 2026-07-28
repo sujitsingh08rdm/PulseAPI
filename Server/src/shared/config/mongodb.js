@@ -29,7 +29,7 @@ class mongoConnection {
       this.connection = mongoose.connection;
 
       logger.info(`MongoDB connected : ${config.mongo.uri}`);
-
+      console.log("Connected to DB:", mongoose.connection.name);
       this.connection.on("error", (err) => {
         logger.error("MongoDB connection error, ", err);
       });
