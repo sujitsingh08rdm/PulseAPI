@@ -9,7 +9,7 @@ class ResponseFormatter {
     };
   }
 
-  static error(data = null, message = "Error", statusCode = 500, error = null) {
+  static error(message = "Error", statusCode = 500, error = null) {
     return {
       success: false,
       message,

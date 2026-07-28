@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import { SecurityUtils } from "../utils/SecurityUtils.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -63,7 +64,7 @@ const userSchema = new mongoose.Schema(
     },
     clientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Client,
+      ref: "Client",
       required: function () {
         return this.role !== "super_admin";
       },

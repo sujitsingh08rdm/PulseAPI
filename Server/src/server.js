@@ -8,6 +8,8 @@ import postgres from "./shared/config/postgres.js";
 import errorHandler from "./shared/middleware/errorHandler.js";
 import rabbitmq from "./shared/config/rabbitmq.js";
 import config from "./shared/config/index.js";
+import authRouter from "./services/auth/routes/authRouter.js";
+import cookieParser from "cookie-parser";
 
 /**
  *
@@ -19,8 +21,9 @@ const app = express();
  */
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
@@ -61,6 +64,11 @@ app.get("/", (req, res) => {
     ),
   );
 });
+
+/**
+ * API Routes
+ */
+app.use("/api/auth", authRouter);
 
 /**
  * 404 handler
